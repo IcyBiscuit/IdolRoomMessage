@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.icybiscuit.idol.dao.mapper.IdolInfoMapper">
+    <resultMap id="IdolInfoMap" type="com.icybiscuit.idol.entity.DO.IdolInfoDO">
+        <id column="id" property="id"/>
+        <result column="member_name" property="memberName"/>
+        <result column="member_team" property="memberTeam"/>
+        <result column="support_color" property="supportColor"/>
+        <result column="support_number" property="supportNumber"/>
+        <result column="member_birthday" property="bidthday"/>
+        <result column="room_id" property="roomId"/>
+    </resultMap>
+
+    <parameterMap id="IdolInfo" type="com.icybiscuit.idol.entity.DO.IdolInfoDO"/>
+    <sql id="Base_Column_List">
+    id,member_name,member_team,support_color,support_number,room_id,birthday
+</sql>
+    <select id="listAllInfo" resultMap="IdolInfoMap">
+        select
+        <include refid="Base_Column_List"/>
+        from
+        t_memberinfo
+
+    </select>
+    <select id="findByName" resultMap="IdolInfoMap" parameterType="java.lang.String">
+        select
+        <include refid="Base_Column_List"/>
+        from t_memberinfo
+        where member_name = #{memberName}
+    </select>
+
+    <select id="findByColor" resultMap="IdolInfoMap" parameterType="java.lang.String">
+        select
+        <include refid="Base_Column_List"/>
+        from t_memberinfo
+        where support_color=#{color}
+    </select>
+
+</mapper>

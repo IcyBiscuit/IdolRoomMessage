@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.icybiscuit.idol.dao.mapper.RoomMsgRankMapper">
+    <resultMap id="rank" type="com.icybiscuit.idol.entity.VO.RankVO">
+        <result column="name" property="name"/>
+        <result column="counts" property="counts"/>
+
+    </resultMap>
+
+    <select id="getRank" parameterType="java.lang.String" resultMap="rank">
+        <choose>
+            <when test="_parameter=='live'.toString() or _parameter=='diantai'.toString()">
+                SELECT
+                msg.name, COUNT(msg.msg_date) counts
+                FROM
+                (SELECT
+                m.member_name name, DATE(m.message_time) msg_date
+                FROM
+                message_vw m
+                WHERE
+                DATE(m.message_time) &lt;= LAST_DAY(CURDATE())
+                AND DATE(m.message_time) &gt;= DATE_ADD(CURDATE(), INTERVAL - DAY(CURDATE()) + 1 DAY)
+                AND m.message_type = #{type}
+                GROUP BY name , msg_date
+                HAVING COUNT(msg_date) >= 1) msg
+                GROUP BY msg.name
+                ORDER BY counts DESC
+                LIMIT 16
+            </when>
+            <otherwise>
+                SELECT
+                m.member_name name, COUNT(m.message_type) counts
+                FROM
+                message_vw m
+                WHERE
+                DATE(m.message_time) &lt;= LAST_DAY(CURDATE())
+                AND DATE(m.message_time) &gt;= DATE_ADD(CURDATE(),
+                INTERVAL - DAY(CURDATE()) + 1 DAY)
+                AND m.message_type = #{type}
+                GROUP BY m.member_name
+                ORDER BY counts DESC
+                LIMIT 16
+            </otherwise>
+        </choose>
+
+    </select>
+
+</mapper>
+

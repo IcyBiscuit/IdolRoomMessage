@@ -46,5 +46,10 @@
 
     </select>
 
+    <select id="getMsgTypes" resultType="java.lang.String">
+        select msg_type
+from msg_type_view
+    </select>
+
 </mapper>
 

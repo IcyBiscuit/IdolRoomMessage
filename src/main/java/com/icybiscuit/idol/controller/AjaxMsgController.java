@@ -5,6 +5,7 @@ import com.icybiscuit.idol.entity.VO.RankVO;
 import com.icybiscuit.idol.service.IdolInfoService;
 import com.icybiscuit.idol.service.RankService;
 import com.icybiscuit.idol.service.TypeService;
+import com.icybiscuit.idol.utils.MessageUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -12,10 +13,11 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/ajax")
-public class IdolInfoController {
+public class AjaxMsgController {
 
     @Autowired
     IdolInfoService idolInfoService;
@@ -47,9 +49,11 @@ public class IdolInfoController {
     }
 
     @RequestMapping(value = "/rank", method = RequestMethod.GET)
-    public List<RankVO> getRank() {
-        List<RankVO> rankList = rankService.getAllRank();
-        return rankList;
+    public /*Map<String, List<RankVO>>*/MessageUtil<Map<String, List<RankVO>>> getAllRank() {
+        Map<String, List<RankVO>> rankMap = rankService.getAllRank();
+
+        return MessageUtil.isOK(rankMap);
+//        return rankMap;
     }
 
     @RequestMapping(value = "rank/{type}", method = RequestMethod.GET)

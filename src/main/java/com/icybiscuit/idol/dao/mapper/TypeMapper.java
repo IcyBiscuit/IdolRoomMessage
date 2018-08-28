@@ -9,8 +9,8 @@ import java.util.List;
 @Mapper
 public interface TypeMapper {
 
-    public List<String> getSupportColor();
+    List<String> getSupportColor();
 
-    public List<String> getTeam();
+    List<String> getTeam();
 
 }

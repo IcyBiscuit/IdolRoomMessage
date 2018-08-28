@@ -3,6 +3,7 @@ package com.icybiscuit.idol.service.impl;
 import com.icybiscuit.idol.dao.mapper.IdolInfoMapper;
 import com.icybiscuit.idol.entity.DO.IdolInfoDO;
 import com.icybiscuit.idol.service.IdolInfoService;
+import com.icybiscuit.idol.utils.Constants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,37 +15,38 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
+import static com.icybiscuit.idol.utils.Constants.*;
+
 @Service
 public class IdolInfoServiceImpl implements IdolInfoService {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(IdolInfoServiceImpl.class);
-
-    @Autowired
-    private IdolInfoMapper mapper;
-
-    @Autowired
-    private ValueOperations<String, Object> valueOperations;
-
     @Autowired
     @Qualifier("myRedisTemplate")
     RedisTemplate<String, Object> redisTemplate;
+    @Autowired
+    private IdolInfoMapper mapper;
+    @Autowired
+    private ValueOperations<String, Object> valueOperations;
 
     @Override
     public List<IdolInfoDO> listAll() {
-        final String key = "memberList";
+//        final String key = "memberList";
+        final String key = Constants.LIST_MEMBER_KEY;
 
         if (redisTemplate.hasKey(key)) {
 
             Object list = valueOperations.get(key);
             List<IdolInfoDO> idolInfoDOList = (List<IdolInfoDO>) list;
-            LOGGER.info("get from redis >>> key: " + key + ", value: " + idolInfoDOList.toString());
+            LOGGER.info(String.format(GET_FROM_REDIS, key, idolInfoDOList.toString()));
 
             return idolInfoDOList;
         }
-
         List<IdolInfoDO> infoDOList = mapper.listAllInfo();
-        LOGGER.info(String.format("set into redis >>> key: %s , value: %s", key, infoDOList.toString()));
-        valueOperations.set(key, infoDOList, 10L, TimeUnit.MINUTES);
+        LOGGER.info(String.format(GET_FROM_DB, infoDOList));
+
+        LOGGER.info(String.format(SET_INTO_REDIS, key, infoDOList.toString()));
+        valueOperations.set(key, infoDOList, 2, TimeUnit.HOURS);
         return infoDOList;
     }
 }

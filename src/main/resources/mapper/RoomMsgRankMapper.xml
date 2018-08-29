@@ -5,35 +5,66 @@
     <resultMap id="rank" type="com.icybiscuit.idol.entity.VO.RankVO">
         <result column="name" property="name"/>
         <result column="counts" property="counts"/>
-        <result column="member_team" property="team"/>
+        <result column="team" property="team"/>
+        <result column="type" property="type"/>
     </resultMap>
 
     <select id="getRank" parameterType="java.lang.String" resultMap="rank">
         <choose>
             <when test="_parameter=='live'.toString() or _parameter=='diantai'.toString()">
                 SELECT
-                m.member_team,msg.name, COUNT(msg.msg_date) counts
+                (SELECT
+                info.member_name
+                FROM
+                t_memberinfo info
+                WHERE
+                info.room_id = msg.room_id) name,
+                (SELECT
+                info.member_team
+                FROM
+                t_memberinfo info
+                WHERE
+                info.room_id = msg.room_id) team,
+                msg.type type,
+                COUNT(msg.room_id) counts
                 FROM
                 (SELECT
-                m.member_name name, DATE(m.message_time) msg_date
+                m.room_id,
+                DATE(m.msg_time) msg_date,
+                m.message_type type
                 FROM
-                message_vw m
+                t_roommsg m
                 WHERE
                 m.message_type = #{type}
-                GROUP BY name , msg_date
+                AND DATE_FORMAT(m.msg_time, '%Y%m') = DATE_FORMAT(CURRENT_DATE(), '%Y%m')
+                GROUP BY m.room_id , msg_date
                 HAVING COUNT(msg_date) >= 1) msg
-                GROUP BY msg.name
+                GROUP BY msg.room_id
                 ORDER BY counts DESC
-                LIMIT 16
+                limit 16
             </when>
             <otherwise>
                 SELECT
-                m.member_team,m.member_name name, COUNT(m.message_type) counts
+                (SELECT
+                info.member_name
                 FROM
-                message_vw m
+                t_memberinfo info
+                WHERE
+                info.room_id = m.room_id) name,
+                (SELECT
+                info.member_team
+                FROM
+                t_memberinfo info
+                WHERE
+                info.room_id = m.room_id) team,
+                m.message_type type,
+                COUNT(m.room_id) counts
+                FROM
+                t_roommsg m
                 WHERE
                 m.message_type = #{type}
-                GROUP BY m.member_name
+                AND DATE_FORMAT(m.msg_time, '%Y%m') = DATE_FORMAT(CURRENT_DATE(), '%Y%m')
+                GROUP BY m.room_id
                 ORDER BY counts DESC
                 LIMIT 16
             </otherwise>
@@ -43,7 +74,7 @@
 
     <select id="getMsgTypes" resultType="java.lang.String">
         select msg_type
-from msg_type_view
+        from msg_type_view
     </select>
 
     <select id="getMsgCountByTeam" resultMap="rank">

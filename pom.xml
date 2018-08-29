@@ -24,6 +24,7 @@
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <java.version>1.8</java.version>
         <connectorJ.version>8.0.12</connectorJ.version>
+        <druid.version>1.1.9</druid.version>
     </properties>
 
     <dependencies>
@@ -51,6 +52,17 @@
             <artifactId>spring-boot-starter-data-jpa</artifactId>
         </dependency>
 
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-autoconfigure</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-configuration-processor</artifactId>
+            <optional>true</optional>
+        </dependency>
+
         <!--redis -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -59,7 +71,6 @@
 
         <!--数据库依赖 -->
         <!-- Mybatis -->
-        <!-- https://mvnrepository.com/artifact/org.mybatis.spring.boot/mybatis-spring-boot-starter -->
         <dependency>
             <groupId>org.mybatis.spring.boot</groupId>
             <artifactId>mybatis-spring-boot-starter</artifactId>
@@ -67,7 +78,6 @@
         </dependency>
 
         <!--Mybatis 测试依赖-->
-        <!-- https://mvnrepository.com/artifact/org.mybatis.spring.boot/mybatis-spring-boot-starter-test -->
         <dependency>
             <groupId>org.mybatis.spring.boot</groupId>
             <artifactId>mybatis-spring-boot-starter-test</artifactId>
@@ -76,17 +86,16 @@
         </dependency>
 
         <!-- druid阿里巴巴数据库连接池 -->
-        <!-- https://mvnrepository.com/artifact/com.alibaba/druid -->
         <dependency>
             <groupId>com.alibaba</groupId>
             <artifactId>druid</artifactId>
-            <version>1.1.10</version>
+            <version>${druid.version}</version>
         </dependency>
-        
+
         <dependency>
             <groupId>com.alibaba</groupId>
             <artifactId>druid-spring-boot-starter</artifactId>
-            <version>1.1.9</version>
+            <version>1.1.10</version>
         </dependency>
 
         <!-- MySql数据库驱动 -->
@@ -102,7 +111,6 @@
         </dependency>
 
         <!-- unit test dependency -->
-        <!-- https://mvnrepository.com/artifact/org.junit.jupiter/junit-jupiter-api -->
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-api</artifactId>

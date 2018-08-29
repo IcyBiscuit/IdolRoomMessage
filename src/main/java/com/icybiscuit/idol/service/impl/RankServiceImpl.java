@@ -61,7 +61,6 @@ public class RankServiceImpl implements RankService {
 
         }
 
-//        TODO get msg type list
         List<String> msgTypes = getMsgTypes();
         Map<String, List<RankVO>> rankMap = new HashMap<>();
 
@@ -99,5 +98,14 @@ public class RankServiceImpl implements RankService {
     @Override
     public List<String> getMsgTypes() {
         return mapper.getMsgTypes();
+    }
+
+    @Override
+    public List<RankVO> getTeamMsgRank() {
+
+//        todo get team rank from redis
+
+        List<RankVO> teamMsgCount = mapper.getMsgCountByTeam();
+        return teamMsgCount;
     }
 }

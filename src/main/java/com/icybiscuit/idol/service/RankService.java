@@ -11,4 +11,7 @@ public interface RankService {
     List<RankVO> getRankByType(String type);
 
     List<String> getMsgTypes();
+
+    //todo get team msg rank
+    List<RankVO> getTeamMsgRank();
 }

@@ -11,8 +11,8 @@ import java.util.List;
 public interface RoomMsgRankMapper {
     List<RankVO> getRank(String type);
 
-    //    TODO get all msg type
     List<String> getMsgTypes();
 
+    //todo get message counts by team
     List<RankVO> getMsgCountByTeam();
 }

@@ -39,6 +39,14 @@
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
 
+        <!--自动更新静态资源-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-devtools</artifactId>
+            <optional>true</optional>
+        </dependency>
+
+
         <!-- 单元测试依赖 -->
         <dependency>
             <groupId>org.springframework.boot</groupId>

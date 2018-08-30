@@ -1,0 +1,22 @@
+body {
+    font-family: "Microsoft YaHei";
+    text-align: center;
+}
+
+a {
+    color: rgb(41, 41, 41);
+    text-transform: none;
+    text-decoration: none;
+    text-align: center;
+    vertical-align: middle
+}
+
+.source {
+    text-align: right;
+    font-size: 12px;
+    margin-right: 12px;
+}
+
+#ztlogo {
+    height: 150px;
+}

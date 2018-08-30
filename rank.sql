@@ -11,15 +11,15 @@ SELECT
         FROM
             t_memberinfo info
         WHERE
-            info.room_id = msg.room_id) name,
+            info.room_id = desc.room_id) name,
     (SELECT 
             info.member_team
         FROM
             t_memberinfo info
         WHERE
-            info.room_id = msg.room_id) team, 
-            msg.type type,
-    COUNT(msg.room_id) counts
+            info.room_id = desc.room_id) team,
+            desc.type type,
+    COUNT(desc.room_id) counts
 FROM
     (SELECT 
         m.room_id,
@@ -31,8 +31,8 @@ FROM
         m.message_type = 'diantai'
             AND DATE_FORMAT(m.msg_time, '%Y%m') = DATE_FORMAT(CURRENT_DATE(), '%Y%m')
     GROUP BY m.room_id , msg_date
-    HAVING COUNT(msg_date) >= 1) msg
-GROUP BY msg.room_id
+    HAVING COUNT(msg_date) >= 1) desc
+GROUP BY desc.room_id
 ORDER BY counts DESC
 limit 16;
 
@@ -58,3 +58,76 @@ WHERE
         AND DATE_FORMAT(m.msg_time, '%Y%m') = DATE_FORMAT(CURRENT_DATE(), '%Y%m')
 GROUP BY m.room_id
 ORDER BY counts DESC
+LIMIT 16;
+
+SELECT 
+    (SELECT 
+            info.member_team
+        FROM
+            t_memberinfo info
+        WHERE
+            info.room_id = desc.room_id) team,
+    COUNT(1) counts
+FROM
+    (SELECT 
+        m.room_id
+    FROM
+        t_roommsg m
+    WHERE
+        (m.message_type = 'text'
+            OR m.message_type = 'faipaiText'
+            OR m.message_type = 'audio'
+            OR m.message_type = 'idolFlip'
+            OR m.message_type = 'image'
+            OR m.message_type = 'videoRecord')
+            AND DATE_FORMAT(m.msg_time, '%Y%m') = DATE_FORMAT(CURRENT_DATE(), '%Y%m')) desc
+GROUP BY team;
+
+
+SELECT 
+    (SELECT 
+            info.member_team
+        FROM
+            t_memberinfo info
+        WHERE
+            info.room_id = desc.room_id) team,
+    COUNT(1) counts
+FROM
+    ((SELECT 
+        m.room_id, m.msg_time
+    FROM
+        t_roommsg m
+    WHERE
+        m.message_type = 'text'
+            AND DATE_FORMAT(m.msg_time, '%Y%m') = DATE_FORMAT(CURRENT_DATE(), '%Y%m')) UNION ALL (SELECT 
+        m.room_id, m.msg_time
+    FROM
+        t_roommsg m
+    WHERE
+        m.message_type = 'faipaiText'
+            AND DATE_FORMAT(m.msg_time, '%Y%m') = DATE_FORMAT(CURRENT_DATE(), '%Y%m')) UNION ALL (SELECT 
+        m.room_id, m.msg_time
+    FROM
+        t_roommsg m
+    WHERE
+        m.message_type = 'audio'
+            AND DATE_FORMAT(m.msg_time, '%Y%m') = DATE_FORMAT(CURRENT_DATE(), '%Y%m')) UNION ALL (SELECT 
+        m.room_id, m.msg_time
+    FROM
+        t_roommsg m
+    WHERE
+        m.message_type = 'idolFlip'
+            AND DATE_FORMAT(m.msg_time, '%Y%m') = DATE_FORMAT(CURRENT_DATE(), '%Y%m')) UNION ALL (SELECT 
+        m.room_id, m.msg_time
+    FROM
+        t_roommsg m
+    WHERE
+        m.message_type = 'image'
+            AND DATE_FORMAT(m.msg_time, '%Y%m') = DATE_FORMAT(CURRENT_DATE(), '%Y%m')) UNION ALL (SELECT 
+        m.room_id, m.msg_time
+    FROM
+        t_roommsg m
+    WHERE
+        m.message_type = 'videoRecord'
+            AND DATE_FORMAT(m.msg_time, '%Y%m') = DATE_FORMAT(CURRENT_DATE(), '%Y%m'))) desc
+GROUP BY team;

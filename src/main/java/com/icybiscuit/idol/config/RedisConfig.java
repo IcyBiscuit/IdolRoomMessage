@@ -11,14 +11,18 @@ import org.springframework.data.redis.serializer.StringRedisSerializer;
 @Configuration
 public class RedisConfig {
 
+    private final RedisConnectionFactory redisConnectionFactory;
+
     @Autowired
-    private RedisConnectionFactory redisConnectionFactory;
+    public RedisConfig(RedisConnectionFactory redisConnectionFactory) {
+        this.redisConnectionFactory = redisConnectionFactory;
+    }
 
     /**
      * 实例化 RedisTemplate 对象
      */
     @Bean(name = "myRedisTemplate")
-    public RedisTemplate<String,  Object> functionDomainRedisTemplate() {
+    public RedisTemplate<String, Object> functionDomainRedisTemplate() {
         RedisTemplate<String, Object> redisTemplate = new RedisTemplate<>();
         this.initRedisTemplate(redisTemplate, redisConnectionFactory);
         return redisTemplate;

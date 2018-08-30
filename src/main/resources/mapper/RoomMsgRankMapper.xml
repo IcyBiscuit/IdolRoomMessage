@@ -41,7 +41,7 @@
                 HAVING COUNT(msg_date) >= 1) msg
                 GROUP BY msg.room_id
                 ORDER BY counts DESC
-                limit 16
+                limit 7
             </when>
             <otherwise>
                 SELECT
@@ -66,7 +66,7 @@
                 AND DATE_FORMAT(m.msg_time, '%Y%m') = DATE_FORMAT(CURRENT_DATE(), '%Y%m')
                 GROUP BY m.room_id
                 ORDER BY counts DESC
-                LIMIT 16
+                LIMIT 7
             </otherwise>
         </choose>
 
@@ -78,6 +78,53 @@
     </select>
 
     <select id="getMsgCountByTeam" resultMap="rank">
+    SELECT
+        (SELECT
+                info.member_team
+            FROM
+                t_memberinfo info
+            WHERE
+                info.room_id = msg.room_id) team,
+        COUNT(1) counts
+    FROM
+        ((SELECT
+            m.room_id, m.msg_time
+        FROM
+            t_roommsg m
+        WHERE
+            m.message_type = 'text'
+                AND DATE_FORMAT(m.msg_time, '%Y%m') = DATE_FORMAT(CURRENT_DATE(), '%Y%m')) UNION ALL (SELECT
+            m.room_id, m.msg_time
+        FROM
+            t_roommsg m
+        WHERE
+            m.message_type = 'faipaiText'
+                AND DATE_FORMAT(m.msg_time, '%Y%m') = DATE_FORMAT(CURRENT_DATE(), '%Y%m')) UNION ALL (SELECT
+            m.room_id, m.msg_time
+        FROM
+            t_roommsg m
+        WHERE
+            m.message_type = 'audio'
+                AND DATE_FORMAT(m.msg_time, '%Y%m') = DATE_FORMAT(CURRENT_DATE(), '%Y%m')) UNION ALL (SELECT
+            m.room_id, m.msg_time
+        FROM
+            t_roommsg m
+        WHERE
+            m.message_type = 'idolFlip'
+                AND DATE_FORMAT(m.msg_time, '%Y%m') = DATE_FORMAT(CURRENT_DATE(), '%Y%m')) UNION ALL (SELECT
+            m.room_id, m.msg_time
+        FROM
+            t_roommsg m
+        WHERE
+            m.message_type = 'image'
+                AND DATE_FORMAT(m.msg_time, '%Y%m') = DATE_FORMAT(CURRENT_DATE(), '%Y%m')) UNION ALL (SELECT
+            m.room_id, m.msg_time
+        FROM
+            t_roommsg m
+        WHERE
+            m.message_type = 'videoRecord'
+                AND DATE_FORMAT(m.msg_time, '%Y%m') = DATE_FORMAT(CURRENT_DATE(), '%Y%m'))) msg
+    GROUP BY team
     </select>
 
 </mapper>

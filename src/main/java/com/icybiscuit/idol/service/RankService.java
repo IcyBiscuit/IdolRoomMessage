@@ -12,6 +12,5 @@ public interface RankService {
 
     List<String> getMsgTypes();
 
-    //todo get team msg rank
     List<RankVO> getTeamMsgRank();
 }

@@ -7,4 +7,5 @@ public final class Constants {
     public final static String LIST_MEMBER_KEY = "member_list";
     public static final String RANK_KEY = "rank";
     public static final String RANK_TYPE_SUFFIX = "_rank";
+    public static final String TEAM_RANK_KEY = "team_rank";
 }

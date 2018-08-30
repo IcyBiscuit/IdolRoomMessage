@@ -1,25 +1,46 @@
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://118.89.30.145:3306/idol?serverTimezone=UTC&characterEncoding=utf8&useUnicode=true&useSSL=false
-    username: biscuit
-    password: Jiushizheme6?
-
+    url: ${jdbc.url}
+    username: ${jdbc.username}
+    password: ${jdbc.password}
     druid:
       initial-size: 5
       min-idle: 5
       max-active: 20
-      test-on-borrow: true
-      stat-view-servlet:
-        login-password: druid
-        login-username: druid
-        url-pattern: /druid
-
+      connection-properties: config.decrypt=true;config.decrypt.key=${jdbc.publickey}
+      filter:
+        config:
+          enabled: true
   redis:
     database: 0
     host: localhost
     port: 6379
+  thymeleaf:
+    prefix: classpath:templates/
+    suffix: .html
+    encoding: UTF-8
+    cache: false
 
+  mvc:
+    static-path-pattern: /static/**
+  devtools:
+    restart:
+      enabled: true
 mybatis:
   type-aliases-package: com.icybiscuit.idol.dao.entity
   mapper-locations: classpath:mapper/*.xml
+
+server:
+  tomcat:
+    uri-encoding: UTF-8
+  servlet:
+    context-path: /idol
+
+
+
+jdbc:
+  url: jdbc:mysql://118.89.30.145:3306/idol?serverTimezone=UTC&characterEncoding=utf8&useUnicode=true&useSSL=false
+  username: biscuit
+  publickey: MFwwDQYJKoZIhvcNAQEBBQADSwAwSAJBAMaC9e17nvwGdrQqzw+KLt1Al7bd1pHtctp+WgkyRaLynHtBVv7USH3xuIafWT1nJp0SQwTuJKzuTpmgPGioQvECAwEAAQ==
+  password: VT5o73Qr2uMFo7Kp0mEKoHTJApwQ0ylnHMfKxDBquFSJSkXBChUkA4DFAT3Ui1x7tsFmHn60i+Rl5GS60MXxMg==

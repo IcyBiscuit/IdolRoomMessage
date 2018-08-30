@@ -20,15 +20,21 @@ import static com.icybiscuit.idol.utils.Constants.*;
 
 @Service
 public class RankServiceImpl implements RankService {
+
     private static final Logger LOGGER = LoggerFactory.getLogger(RankServiceImpl.class);
-    @Autowired
-    RoomMsgRankMapper mapper;
+
+    private final RoomMsgRankMapper mapper;
+
+    private final RedisTemplate<String, Object> redisTemplate;
+
+    private final ValueOperations<String, Object> valueOperations;
 
     @Autowired
-    RedisTemplate<String, Object> redisTemplate;
-
-    @Autowired
-    ValueOperations<String, Object> valueOperations;
+    public RankServiceImpl(RoomMsgRankMapper mapper, RedisTemplate<String, Object> redisTemplate, ValueOperations<String, Object> valueOperations) {
+        this.mapper = mapper;
+        this.redisTemplate = redisTemplate;
+        this.valueOperations = valueOperations;
+    }
 
     @Override
     public List<RankVO> getRankByType(String type) {
@@ -102,10 +108,20 @@ public class RankServiceImpl implements RankService {
 
     @Override
     public List<RankVO> getTeamMsgRank() {
+        final String key = Constants.TEAM_RANK_KEY;
 
-//        todo get team rank from redis
+        if (redisTemplate.hasKey(key)) {
+            Object o = valueOperations.get(Constants.TEAM_RANK_KEY);
+            List<RankVO> teamRank = (List<RankVO>) o;
+            LOGGER.info(String.format(Constants.GET_FROM_REDIS, key, teamRank.toString()));
+            return teamRank;
+        }
 
         List<RankVO> teamMsgCount = mapper.getMsgCountByTeam();
+        LOGGER.info(String.format(Constants.GET_FROM_DB, teamMsgCount.toString()));
+
+        valueOperations.set(key, teamMsgCount, 20, TimeUnit.MINUTES);
+        LOGGER.info(String.format(Constants.SET_INTO_REDIS, key, teamMsgCount.toString()));
         return teamMsgCount;
     }
 }

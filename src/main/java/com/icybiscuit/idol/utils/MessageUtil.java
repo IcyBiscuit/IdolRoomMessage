@@ -8,15 +8,15 @@ import lombok.ToString;
 //@Setter
 public class MessageUtil<T> {
     private int status;
-    private String msg;
-    private T content;
+    private String desc;
+    private T data;
 
 
-    public static MessageUtil isOK(Object messageContent) {
+    public static MessageUtil ok(Object messageData) {
         MessageUtil m = new MessageUtil();
         m.setStatus(200);
-        m.setMsg("success");
-        m.setContent(messageContent);
+        m.setDesc("success");
+        m.setData(messageData);
         return m;
     }
 
@@ -24,11 +24,11 @@ public class MessageUtil<T> {
         this.status = status;
     }
 
-    public void setMsg(String msg) {
-        this.msg = msg;
+    public void setDesc(String desc) {
+        this.desc = desc;
     }
 
-    public void setContent(T content) {
-        this.content = content;
+    public void setData(T data) {
+        this.data = data;
     }
 }

@@ -13,6 +13,5 @@ public interface RoomMsgRankMapper {
 
     List<String> getMsgTypes();
 
-    //todo get message counts by team
     List<RankVO> getMsgCountByTeam();
 }

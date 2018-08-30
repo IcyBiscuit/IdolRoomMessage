@@ -21,13 +21,16 @@ import static com.icybiscuit.idol.utils.Constants.*;
 public class IdolInfoServiceImpl implements IdolInfoService {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(IdolInfoServiceImpl.class);
+    private final RedisTemplate<String, Object> redisTemplate;
+    private final IdolInfoMapper mapper;
+    private final ValueOperations<String, Object> valueOperations;
+
     @Autowired
-    @Qualifier("myRedisTemplate")
-    RedisTemplate<String, Object> redisTemplate;
-    @Autowired
-    private IdolInfoMapper mapper;
-    @Autowired
-    private ValueOperations<String, Object> valueOperations;
+    public IdolInfoServiceImpl(@Qualifier("myRedisTemplate") RedisTemplate<String, Object> redisTemplate, IdolInfoMapper mapper, ValueOperations<String, Object> valueOperations) {
+        this.redisTemplate = redisTemplate;
+        this.mapper = mapper;
+        this.valueOperations = valueOperations;
+    }
 
     @Override
     public List<IdolInfoDO> listAll() {

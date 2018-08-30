@@ -10,8 +10,12 @@ import java.util.List;
 @Service
 public class TypeServiceImpl implements TypeService {
 
+    private TypeMapper typeMapper;
+
     @Autowired
-    TypeMapper typeMapper;
+    public TypeServiceImpl(TypeMapper typeMapper) {
+        this.typeMapper = typeMapper;
+    }
 
     @Override
     public List<String> getSupportColor() {

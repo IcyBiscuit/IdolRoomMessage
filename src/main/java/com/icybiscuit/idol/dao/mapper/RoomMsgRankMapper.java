@@ -14,4 +14,6 @@ public interface RoomMsgRankMapper {
     List<String> getMsgTypes();
 
     List<RankVO> getMsgCountByTeam();
+
+    List<RankVO> getLiveRank();
 }

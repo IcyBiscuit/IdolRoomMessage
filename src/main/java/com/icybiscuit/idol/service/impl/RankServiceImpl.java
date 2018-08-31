@@ -16,7 +16,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
-import static com.icybiscuit.idol.utils.Constants.*;
+import static com.icybiscuit.idol.utils.Constants.GET_FROM_DB;
+import static com.icybiscuit.idol.utils.Constants.GET_FROM_REDIS;
 
 @Service
 public class RankServiceImpl implements RankService {
@@ -40,65 +41,63 @@ public class RankServiceImpl implements RankService {
     public List<RankVO> getRankByType(String type) {
         String key = type + "_rank";
 
-        if (redisTemplate.hasKey(key)) {
-            Object obj = valueOperations.get(key);
-            List<RankVO> list = (List<RankVO>) obj;
-            LOGGER.info(String.format(GET_FROM_REDIS, key, list.toString()));
-            return list;
-
+        Object obj = getFromRedis(key);
+        if (obj != null) {
+            return (List<RankVO>) obj;
+        } else {
+            List<RankVO> rankList = mapper.getRank(type);
+            LOGGER.info(String.format(GET_FROM_DB, rankList.toString()));
+            setIntoRedis(key, rankList);
+            return rankList;
         }
-        List<RankVO> rankList = mapper.getRank(type);
-        LOGGER.info(String.format(GET_FROM_DB, rankList.toString()));
-        valueOperations.set(key, rankList, 20, TimeUnit.MINUTES);
-        LOGGER.info(String.format(SET_INTO_REDIS, key, rankList.toString()));
-        return rankList;
+
     }
+
 
     @Override
     public Map<String, List<RankVO>> getAllRank() {
 //        final String key = "rank";
         final String key = Constants.RANK_KEY;
 
-        if (redisTemplate.hasKey(key)) {
-            Object obj = valueOperations.get(key);
-            Map<String, List<RankVO>> map = (Map<String, List<RankVO>>) obj;
-            LOGGER.info(String.format(GET_FROM_REDIS, key, map.toString()));
-            return map;
+        Object o = getFromRedis(key);
+        if (o != null) {
+            return (Map<String, List<RankVO>>) o;
+        } else {
+            List<String> msgTypes = getMsgTypes();
+            Map<String, List<RankVO>> rankMap = new HashMap<>();
 
-        }
-
-        List<String> msgTypes = getMsgTypes();
-        Map<String, List<RankVO>> rankMap = new HashMap<>();
-
-        for (String type : msgTypes
-        ) {
+            for (String type : msgTypes
+            ) {
 //            String keyToBeSet = type + "_rank";
-            String keyToBeSet = type + Constants.RANK_TYPE_SUFFIX;
+                String keyToBeSet = type + Constants.RANK_TYPE_SUFFIX;
 
-            List<RankVO> rank;
+                List<RankVO> rank;
 
-            if (redisTemplate.hasKey(keyToBeSet)) {
-                rank = (List<RankVO>) valueOperations.get(keyToBeSet);
-                LOGGER.info(String.format(GET_FROM_REDIS, keyToBeSet, rank.toString()));
+                Object fromRedis = getFromRedis(keyToBeSet);
 
-            } else {
-                rank = mapper.getRank(type);
-                valueOperations.set(keyToBeSet, rank, 20, TimeUnit.MINUTES);
-                LOGGER.info(String.format(SET_INTO_REDIS, keyToBeSet, rank.toString()));
+                if (fromRedis != null) {
+                    rank = (List<RankVO>) fromRedis;
+                    LOGGER.info(String.format(GET_FROM_REDIS, keyToBeSet, rank.toString()));
 
+                } else {
+                    rank = mapper.getRank(type);
+//                    valueOperations.set(keyToBeSet, rank, 20, TimeUnit.MINUTES);
+//                    LOGGER.info(String.format(SET_INTO_REDIS, keyToBeSet, rank.toString()));
+                    setIntoRedis(keyToBeSet, rank);
+
+                }
+
+                rankMap.put(type, rank);
             }
-
-            rankMap.put(type, rank);
-        }
 
 
 //        String test = "live";
 //        List<RankVO> rankList = mapper.getAllRank(test);
 
-        LOGGER.info(String.format(GET_FROM_DB, rankMap.toString()));
-        valueOperations.set(key, rankMap, 20, TimeUnit.MINUTES);
-        LOGGER.info(String.format(SET_INTO_REDIS, key, rankMap.toString()));
-        return rankMap;
+            LOGGER.info(String.format(GET_FROM_DB, rankMap.toString()));
+            setIntoRedis(key, rankMap);
+            return rankMap;
+        }
     }
 
     @Override
@@ -120,8 +119,42 @@ public class RankServiceImpl implements RankService {
         List<RankVO> teamMsgCount = mapper.getMsgCountByTeam();
         LOGGER.info(String.format(Constants.GET_FROM_DB, teamMsgCount.toString()));
 
-        valueOperations.set(key, teamMsgCount, 20, TimeUnit.MINUTES);
-        LOGGER.info(String.format(Constants.SET_INTO_REDIS, key, teamMsgCount.toString()));
+        setIntoRedis(key, teamMsgCount);
         return teamMsgCount;
+    }
+
+
+    @Override
+    public List<RankVO> getLiveRank() {
+        final String key = Constants.ALL_LIVE_RANK_KEY;
+
+        if (redisTemplate.hasKey(key)) {
+            Object o = valueOperations.get(Constants.ALL_LIVE_RANK_KEY);
+            List<RankVO> liveRank = (List<RankVO>) o;
+            LOGGER.info(String.format(Constants.GET_FROM_REDIS, key, liveRank.toString()));
+            return liveRank;
+        }
+        List<RankVO> liveRank = mapper.getLiveRank();
+        LOGGER.info(String.format(Constants.GET_FROM_DB, liveRank.toString()));
+
+
+        setIntoRedis(key, liveRank);
+        return liveRank;
+    }
+
+    private void setIntoRedis(String key, Object o) {
+        valueOperations.set(key, o, 20, TimeUnit.MINUTES);
+        LOGGER.info(String.format(Constants.SET_INTO_REDIS, key, o.toString()));
+    }
+
+    private Object getFromRedis(String key) {
+        if (redisTemplate.hasKey(key)) {
+            Object obj = valueOperations.get(key);
+//            List<RankVO> list = (List<RankVO>) obj;
+            LOGGER.info(String.format(GET_FROM_REDIS, key, obj.toString()));
+            return obj;
+
+        }
+        return null;
     }
 }

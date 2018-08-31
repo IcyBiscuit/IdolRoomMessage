@@ -8,11 +8,11 @@ function teamRank() {
             success: function (result) {
                 if (result.status == 200 && result.desc == 'success') {
                     drawchar('team', result.data, {
-                        'type': 'polarArea',
+                        'type': 'doughnut',
                         "backgroundColor": ["rgba(75, 192, 192, 0.5)", "rgba(255, 206, 86, 0.5)", "rgba(255, 99, 132, 0.5)", "rgba(200,200,200,0.5)"],
                         "borderColor": ["rgba(75, 192, 192, 1)", "rgba(255, 206, 86, 1)", "rgba(255,99,132,1)", "rgba(200,200,200,1)"],
                         "option": {
-                            "startAngle": -0.75 * Math.PI
+                            // "startAngle": -0.75 * Math.PI
                         }
                     })
                 }

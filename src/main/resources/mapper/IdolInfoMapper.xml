@@ -11,11 +11,13 @@
         <result column="support_number" property="supportNumber"/>
         <result column="member_birthday" property="bidthday"/>
         <result column="room_id" property="roomId"/>
+        <!--<result column="background_color" property="backgroundColor"/>-->
+        <!--<result column="border_color" property="borderColor"/>-->
     </resultMap>
 
     <parameterMap id="IdolInfo" type="com.icybiscuit.idol.entity.DO.IdolInfoDO"/>
     <sql id="Base_Column_List">
-    id,member_name,member_team,support_color,support_number,room_id,birthday
+    id,member_name,member_team,support_color,support_number,room_id,birthday/*,background_color,border_color*/
 </sql>
     <select id="listAllInfo" resultMap="IdolInfoMap">
         select

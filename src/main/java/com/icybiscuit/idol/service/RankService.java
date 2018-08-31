@@ -13,4 +13,7 @@ public interface RankService {
     List<String> getMsgTypes();
 
     List<RankVO> getTeamMsgRank();
+
+    List<RankVO> getLiveRank();
+
 }

@@ -27,4 +27,6 @@ public class IdolInfoDO implements Serializable {
 //    @JsonIgnore
     private String roomId;
     private String birthday;
+//    private String backgroundColor;
+//    private String borderColor;
 }

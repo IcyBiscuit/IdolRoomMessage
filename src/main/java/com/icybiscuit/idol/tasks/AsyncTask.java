@@ -67,4 +67,13 @@ public class AsyncTask {
 
         return new AsyncResult<>(true);
     }
+
+    @Async
+    public Future<Boolean> getLiveRank(){
+        String key =Constants.ALL_LIVE_RANK_KEY;
+        List<RankVO> liveRank = mapper.getLiveRank();
+        LOGGER.info(String.format(Constants.SET_INTO_REDIS,key,liveRank.toString()));
+        valueOperations.set(key,liveRank,1,TimeUnit.DAYS);
+        return new AsyncResult<>(true);
+    }
 }

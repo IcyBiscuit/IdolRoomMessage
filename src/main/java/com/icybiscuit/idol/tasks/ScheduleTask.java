@@ -26,8 +26,10 @@ public class ScheduleTask {
 
         Future<Boolean> teamRank = asyncTask.getTeamRank();
         Future<Boolean> memberMsgRank = asyncTask.getMemberMsgRank();
+        Future<Boolean> liveRank = asyncTask.getLiveRank();
 
-        while (!teamRank.isDone() || !memberMsgRank.isDone()) {
+
+        while (!teamRank.isDone() || !memberMsgRank.isDone() || liveRank.isDone()) {
 
         }
         LOGGER.info("query schedule finished");

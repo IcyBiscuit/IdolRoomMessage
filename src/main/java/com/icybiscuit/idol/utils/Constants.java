@@ -8,4 +8,5 @@ public final class Constants {
     public static final String RANK_KEY = "rank";
     public static final String RANK_TYPE_SUFFIX = "_rank";
     public static final String TEAM_RANK_KEY = "team_rank";
+    public static final String ALL_LIVE_RANK_KEY = "all_live_rank";
 }

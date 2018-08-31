@@ -11,15 +11,15 @@ SELECT
         FROM
             t_memberinfo info
         WHERE
-            info.room_id = desc.room_id) name,
+            info.room_id = msg.room_id) name,
     (SELECT 
             info.member_team
         FROM
             t_memberinfo info
         WHERE
-            info.room_id = desc.room_id) team,
-            desc.type type,
-    COUNT(desc.room_id) counts
+            info.room_id = msg.room_id) team,
+            msg.type type,
+    COUNT(msg.room_id) counts
 FROM
     (SELECT 
         m.room_id,
@@ -31,8 +31,8 @@ FROM
         m.message_type = 'diantai'
             AND DATE_FORMAT(m.msg_time, '%Y%m') = DATE_FORMAT(CURRENT_DATE(), '%Y%m')
     GROUP BY m.room_id , msg_date
-    HAVING COUNT(msg_date) >= 1) desc
-GROUP BY desc.room_id
+    HAVING COUNT(msg_date) >= 1) msg
+GROUP BY msg.room_id
 ORDER BY counts DESC
 limit 16;
 
@@ -66,7 +66,7 @@ SELECT
         FROM
             t_memberinfo info
         WHERE
-            info.room_id = desc.room_id) team,
+            info.room_id = msg.room_id) team,
     COUNT(1) counts
 FROM
     (SELECT 
@@ -80,7 +80,7 @@ FROM
             OR m.message_type = 'idolFlip'
             OR m.message_type = 'image'
             OR m.message_type = 'videoRecord')
-            AND DATE_FORMAT(m.msg_time, '%Y%m') = DATE_FORMAT(CURRENT_DATE(), '%Y%m')) desc
+            AND DATE_FORMAT(m.msg_time, '%Y%m') = DATE_FORMAT(CURRENT_DATE(), '%Y%m')) msg
 GROUP BY team;
 
 
@@ -90,7 +90,7 @@ SELECT
         FROM
             t_memberinfo info
         WHERE
-            info.room_id = desc.room_id) team,
+            info.room_id = msg.room_id) team,
     COUNT(1) counts
 FROM
     ((SELECT 
@@ -129,5 +129,26 @@ FROM
         t_roommsg m
     WHERE
         m.message_type = 'videoRecord'
-            AND DATE_FORMAT(m.msg_time, '%Y%m') = DATE_FORMAT(CURRENT_DATE(), '%Y%m'))) desc
+            AND DATE_FORMAT(m.msg_time, '%Y%m') = DATE_FORMAT(CURRENT_DATE(), '%Y%m'))) msg
 GROUP BY team;
+
+SELECT 
+    info.member_name name, info.member_team team, rank.counts
+FROM
+    (SELECT 
+        m.room_id, COUNT(m.room_id) counts
+    FROM
+        (SELECT 
+        msg.room_id, DATE(msg.msg_time) msg_date
+    FROM
+        t_roommsg msg
+    WHERE
+        msg.message_type IN ('diantai' , 'live')
+            AND DATE_FORMAT(msg.msg_time, '%Y%m') = DATE_FORMAT(CURRENT_DATE(), '%Y%m')
+    GROUP BY msg.room_id , msg_date
+    HAVING COUNT(msg_date) >= 1) m
+    GROUP BY m.room_id) rank
+        INNER JOIN
+    t_memberinfo info ON rank.room_id = info.room_id
+ORDER BY counts DESC
+LIMIT 7;

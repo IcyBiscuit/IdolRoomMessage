@@ -17,6 +17,8 @@
     <script th:src="@{/static/js/draw.js}"></script>
     <script th:src="@{/static/js/teamRank.js}"></script>
     <script th:src="@{/static/js/memberRank.js}"></script>
+    <script th:src="@{/static/js/color.js}"></script>
+
     <link rel="stylesheet" type="text/css" th:href="@{/static/css/rankPage.css}"/>
 </head>
 
@@ -31,10 +33,13 @@
 
             <div class="chart">
                 <h3>队伍消息总计</h3>
-                <canvas id="team" height="100px"></canvas>
+                <canvas id="team"></canvas>
+
+                <h3>直播总计(按照天数计算)</h3>
+                <canvas id="allLive"></canvas>
 
                 <h3>露脸直播统计(按照天数计算)</h3>
-                <canvas id="live" height="150px"></canvas>
+                <canvas id="live"></canvas>
 
                 <h3>电台直播统计(按照天数计算)</h3>
                 <canvas id="diantai"></canvas>
@@ -68,7 +73,7 @@
                         <a class="floating-action-round-button weibo" itemprop="sameAs"
                            href="https://weibo.com/6423815547"
                            target="_blank">
-                            <p>© GNZ48 Poster Project</p>
+                            <p>© GNZ48 Pocket48 Project</p>
 
                             <div class="icon">
                                 Weibo: 生个中泰吧
@@ -99,9 +104,11 @@
         $("#title").text("口袋房间消息统计(" + getMonth() + ")");
         teamRank();
         memberRank();
+        liveRank();
     });
 
     function getMonth() {
+
         var date = new Date();
         var year = date.getFullYear();
         var month = date.getMonth() + 1;

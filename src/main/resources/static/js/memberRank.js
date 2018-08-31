@@ -13,8 +13,8 @@ function memberRank() {
                         try {
                             drawchar(key, data[key], {
                                 'type': 'bar',
-                                "backgroundColor": "",
-                                "borderColor": "",
+                                // "backgroundColor": "",
+                                // "borderColor": "",
                                 "label": String(key),
                                 "option": {}
                             })
@@ -32,4 +32,33 @@ function memberRank() {
             }
         }
     )
+}
+
+function liveRank() {
+    var _url = '/idol/ajax/rank/all/live';
+
+    $.ajax(
+        {
+            url: _url,
+            type: "get",
+            dataType: 'json',
+            success: function (result) {
+                if (result.status == 200 && result.desc == 'success') {
+                    var data = result.data;
+
+                    drawchar("allLive", data, {
+                        'type': 'bar',
+                        "label": 'all live',
+                        "option": {}
+                    })
+                }
+                // success(result)
+            },
+            error: function (e) {
+                console.log('error');
+                console.log(e);
+            }
+        }
+    )
+
 }

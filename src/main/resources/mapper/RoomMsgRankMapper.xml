@@ -127,5 +127,28 @@
     GROUP BY team
     </select>
 
+    <select id="getLiveRank" resultMap="rank">
+    SELECT
+        info.member_name name, info.member_team team, rank.counts
+    FROM
+        (SELECT
+            m.room_id, COUNT(m.room_id) counts
+        FROM
+            (SELECT
+            msg.room_id, DATE(msg.msg_time) msg_date
+        FROM
+            t_roommsg msg
+        WHERE
+            msg.message_type IN ('diantai' , 'live')
+                AND DATE_FORMAT(msg.msg_time, '%Y%m') = DATE_FORMAT(CURRENT_DATE(), '%Y%m')
+        GROUP BY msg.room_id , msg_date
+        HAVING COUNT(msg_date) >= 1) m
+        GROUP BY m.room_id) rank
+            INNER JOIN
+        t_memberinfo info ON rank.room_id = info.room_id
+    ORDER BY counts DESC
+    LIMIT 7;
+    </select>
+
 </mapper>
 

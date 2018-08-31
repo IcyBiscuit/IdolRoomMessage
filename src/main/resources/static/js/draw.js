@@ -54,16 +54,20 @@ function drawchar(nodeid, data, _style) {
 
     if (nodeid == 'team') {
         _formdata.data.labels = _datalist.teamlist;
+        _formdata.data.datasets[0].backgroundColor = _style.backgroundColor;
+        _formdata.data.datasets[0].borderColor = _style.borderColor;
     } else {
         _formdata.data.labels = _datalist.namelist;
+        var colorList = getColorList(_datalist.namelist);
+        _formdata.data.datasets[0].backgroundColor = colorList.backgroundColor;
+        _formdata.data.datasets[0].borderColor = colorList.borderColor;
     }
 
     _formdata.data.datasets[0].data = _datalist.scorelist;
     _formdata.data.datasets[0].label = _style.label;
 
     _formdata.type = _style.type;
-    _formdata.data.datasets[0].backgroundColor = _style.backgroundColor;
-    _formdata.data.datasets[0].borderColor = _style.borderColor;
+
     _formdata.options = _style.option;
 
     var myChar = new Chart(ctx, _formdata);

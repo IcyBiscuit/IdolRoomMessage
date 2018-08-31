@@ -49,5 +49,11 @@ public class MsgRankController {
         return MessageUtil.ok(teamMsgRank);
 //        return teamMsgRank;
     }
+
+    @GetMapping(path = "/all/live")
+    public MessageUtil<List<RankVO>> getLiveRank() {
+        List<RankVO> liveRank = rankService.getLiveRank();
+        return MessageUtil.ok(liveRank);
+    }
 }
 

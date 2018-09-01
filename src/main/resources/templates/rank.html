@@ -1,22 +1,28 @@
 <!DOCTYPE html>
 <html lang="zh">
+<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="xxxx">
 
 <head>
     <meta charset="utf-8">
     <meta name="viewport" data="width=device-width, initial-scale=1, user-scalable=no">
     <link rel="bookmark" type="image/x-icon" th:href="@{/static/favicon.ico}"/>
     <link rel="shortcut icon" th:href="@{/static/favicon.ico}">
-    <link rel="icon" th:href="@{/static/favicon.ico}">
+    <link rel="icon" th:href="@{/favicon.ico}">
     <title>GNZ48 口袋房间消息统计 - GNZ48 Pocket48 Project</title>
     <meta name="description" data="口袋房间消息统计">
     <meta name="mobile-web-app-capable" data="yes">
     <meta name="msapplication-TileColor" data="#eeeeee">
     <meta name="theme-color" data="#4FC0C0">
-    <script src="http://code.jquery.com/jquery-latest.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.bundle.min.js"></script>
+    <script th:src="@{https://code.jquery.com/jquery-latest.js}"></script>
+    <script th:src="@{https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.bundle.min.js}"></script>
     <script th:src="@{/static/js/draw.js}"></script>
-    <script th:src="@{/static/js/teamRank.js}"></script>
-    <script th:src="@{/static/js/memberRank.js}"></script>
+    <script th:src="@{/static/js/DrawTeamRank.js}"></script>
+    <script th:src="@{/static/js/DrawMemberRank.js}"></script>
+    <script th:src="@{static/js/MsgDaysCounts.js}"></script>
+    <script th:src="@{static/js/DrawMsgDaysCounts.js}"></script>
     <script th:src="@{/static/js/color.js}"></script>
 
     <link rel="stylesheet" type="text/css" th:href="@{/static/css/rankPage.css}"/>
@@ -34,6 +40,9 @@
             <div class="chart">
                 <h3>队伍消息总计</h3>
                 <canvas id="team"></canvas>
+
+                <h3>消息数量走向</h3>
+                <canvas id="msgDayCounts"></canvas>
 
                 <h3>直播总计(按照天数计算)</h3>
                 <canvas id="allLive"></canvas>
@@ -102,9 +111,14 @@
 <script>
     $(function () {
         $("#title").text("口袋房间消息统计(" + getMonth() + ")");
+
         teamRank();
-        memberRank();
+
+        msgDaysCounts();
+
         liveRank();
+
+        memberRank();
     });
 
     function getMonth() {

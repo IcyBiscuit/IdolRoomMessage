@@ -27,11 +27,8 @@ public class ScheduleTask {
         Future<Boolean> teamRank = asyncTask.getTeamRank();
         Future<Boolean> memberMsgRank = asyncTask.getMemberMsgRank();
         Future<Boolean> liveRank = asyncTask.getLiveRank();
+        Future<Boolean> msgDaysCounts = asyncTask.getMsgDaysCounts();
 
-
-        while (!teamRank.isDone() || !memberMsgRank.isDone() || liveRank.isDone()) {
-
-        }
         LOGGER.info("query schedule finished");
     }
 }

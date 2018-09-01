@@ -1,5 +1,5 @@
 function teamRank() {
-    var _url = '/idol/ajax/rank/team';
+    var _url = '/ajax/rank/team';
     $.ajax(
         {
             url: _url,

@@ -1,5 +1,5 @@
 function memberRank() {
-    var _url = "/idol/ajax/rank/all";
+    var _url = "/ajax/rank/all";
 
     $.ajax(
         {
@@ -35,7 +35,7 @@ function memberRank() {
 }
 
 function liveRank() {
-    var _url = '/idol/ajax/rank/all/live';
+    var _url = '/ajax/rank/all/live';
 
     $.ajax(
         {

@@ -20,7 +20,7 @@ public class ScheduleTask {
         this.asyncTask = asyncTask;
     }
 
-    @Scheduled(cron = "0 0 * * * ?")
+    @Scheduled(cron = "0 0 0/6 * * ?")
     public void runRankQuery() {
         LOGGER.info("start query schedule");
 

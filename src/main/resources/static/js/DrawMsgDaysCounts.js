@@ -1,5 +1,5 @@
 function msgDaysCounts() {
-    var _url = '/ajax/msg/counts/all';
+    var _url = $("#contextpath").val() + '/ajax/msg/counts/all';
     $.ajax(
         {
             url: _url,
@@ -10,7 +10,6 @@ function msgDaysCounts() {
                     var data = buildFormresult(result.data);
                     drawMsgDaysCountsLine("msgDayCounts", data);
                 }
-                // success(result)
             },
             error: function (e) {
                 console.log('error');

@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 @Controller
 public class PageController {
 
-    @GetMapping(path = "/rank")
+    @GetMapping(path = {"/", "/rank"})
     public String rank() {
 
         return "rank";

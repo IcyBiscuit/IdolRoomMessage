@@ -37,6 +37,6 @@ public class RedisUtil {
 
     public void setIntoRedis(String key, Object o) {
         LOGGER.info(String.format(Constants.SET_INTO_REDIS, key, o.toString()));
-        valueOperations.set(key, o, 1, TimeUnit.DAYS);
+        valueOperations.set(key, o, 6, TimeUnit.HOURS);
     }
 }

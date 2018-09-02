@@ -1,5 +1,5 @@
 body {
-    font-family: "Microsoft YaHei";
+    font-family: "Microsoft YaHei", "Helvetica", "Menlo";
     text-align: center;
 }
 
@@ -19,4 +19,13 @@ a {
 
 #ztlogo {
     height: 150px;
+}
+
+.ypg {
+    color: #808080;
+    /*font-size: 14px;*/
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+    font-size: smaller;
 }

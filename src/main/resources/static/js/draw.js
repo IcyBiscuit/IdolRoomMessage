@@ -1,34 +1,4 @@
-// function success(_result) {
-//     if (_result.code === '0') {
-//
-//         $('#time').text("更新时间: " + new Date())
-//
-//         drawchar('top16', _result.scoreList.slice(0, 15), {
-//             "type": "horizontalBar",
-//             "backgroundColor": "rgba(255, 99, 132, 0.2)",
-//             "borderColor": "rgba(255,99,132,1)"
-//         })
-//
-//
-//         drawchar('top32', _result.scoreList.slice(16, 31), {
-//             "type": "horizontalBar",
-//             "backgroundColor": "rgba(255, 206, 86, 0.2)",
-//             "borderColor": "rgba(255, 206, 86, 1)"
-//         })
-//
-//
-//         drawchar('all', _result.scoreList.slice(32), {
-//             "type": "bar",
-//             "backgroundColor": "rgba(75, 192, 192, 0.2)",
-//             "borderColor": "rgba(75, 192, 192, 1)"
-//         })
-//
-//     }
-// }
-
-
 function drawchar(nodeid, data, _style) {
-
     var _formdata = {
         "type": "",
         "data": {
@@ -85,7 +55,6 @@ function obj2array(obj) {
         namelist.push(element.name);
         scorelist.push(element.counts);
     });
-    // return [teamlist,namelist, scorelist]
     return {
         'teamlist': teamlist,
         'namelist': namelist,

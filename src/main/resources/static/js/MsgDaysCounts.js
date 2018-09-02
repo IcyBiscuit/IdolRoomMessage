@@ -37,12 +37,14 @@ function buildFormresult(result) {
         formdata.data.datasets.push({
 
             "label": team,
-            "data": parsed.counts,
+            "data": parsed.counts.slice(0, -1),
 
-            "backgroundColor": teamColor[team]['backgroundColor'],
+            // "backgroundColor": teamColor[team]['backgroundColor'],
+            "backgroundColor": "rgba(240,240,240,0.2)",
+
             "borderColor": teamColor[team]['borderColor'],
 
-            "borderWidth": 2
+            "borderWidth": 3.5
         })
     }
     return formdata;

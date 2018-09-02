@@ -1,5 +1,5 @@
 function memberRank() {
-    var _url = "/ajax/rank/all";
+    var _url = $("#contextpath").val() + "/ajax/rank/all";
 
     $.ajax(
         {
@@ -13,8 +13,6 @@ function memberRank() {
                         try {
                             drawchar(key, data[key], {
                                 'type': 'bar',
-                                // "backgroundColor": "",
-                                // "borderColor": "",
                                 "label": String(key),
                                 "option": {}
                             })
@@ -24,7 +22,6 @@ function memberRank() {
 
                     }
                 }
-                // success(result)
             },
             error: function (e) {
                 console.log('error');
@@ -35,7 +32,7 @@ function memberRank() {
 }
 
 function liveRank() {
-    var _url = '/ajax/rank/all/live';
+    var _url = $("#contextpath").val() + '/ajax/rank/all/live';
 
     $.ajax(
         {
@@ -52,7 +49,6 @@ function liveRank() {
                         "option": {}
                     })
                 }
-                // success(result)
             },
             error: function (e) {
                 console.log('error');

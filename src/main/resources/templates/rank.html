@@ -24,6 +24,7 @@
     <script th:src="@{static/js/MsgDaysCounts.js}"></script>
     <script th:src="@{static/js/DrawMsgDaysCounts.js}"></script>
     <script th:src="@{/static/js/color.js}"></script>
+    <script th:src="@{static/js/YpgText.js}"></script>
 
     <link rel="stylesheet" type="text/css" th:href="@{/static/css/rankPage.css}"/>
 </head>
@@ -31,17 +32,22 @@
 <body>
 <div class="m-page-stage js-page-stage">
     <img id="ztlogo" th:src="@{/static/img/logo.png}" alt="logo.png">
+
+    <div class="ypg" id="ypgarea">
+        <p class="ypg" id="ypgtext"></p>
+    </div>
+
     <div class="m-page-data">
         <div class="m-article-data js-article-data" itemprop="articleBody">
-            <h1 id="title"></h1>
 
-            <p id="time"></p>
+            <h1 id="title">口袋房间消息统计</h1>
 
             <div class="chart">
+
                 <h3>队伍消息总计</h3>
                 <canvas id="team"></canvas>
 
-                <h3>消息数量走向</h3>
+                <h3>非直播类消息数量走向</h3>
                 <canvas id="msgDayCounts"></canvas>
 
                 <h3>直播总计(按照天数计算)</h3>
@@ -75,7 +81,8 @@
             </div>
 
             <div class="m-page-footer js-page-footer">
-                <p class="source">数据来源: 口袋48爬虫</p>
+                <p class="source">因监控成员较多,口袋服务器请求间隔限制以及小偶像发消息手速的的不确定性,统计数据可能与原始真实情况有误差(偏少), 请谅解</p>
+                <p class="source">数据来源: 口袋48消息机器人</p>
                 <p class="source">数据整理: 生个中泰吧秃头组</p>
                 <div class="main">
                     <footer class="site-info">
@@ -106,10 +113,13 @@
         </div>
     </div>
 </div>
-
+<input type="hidden" id="contextpath" th:value="${#servletContext.getContextPath()}">
 </body>
 <script>
     $(function () {
+
+        $("#ypgtext").text(ypg[Math.floor(Math.random() * ypg.length)]);
+
         $("#title").text("口袋房间消息统计(" + getMonth() + ")");
 
         teamRank();

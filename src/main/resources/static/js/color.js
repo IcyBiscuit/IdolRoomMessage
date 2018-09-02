@@ -74,7 +74,7 @@ var chartColorInfo = {
     '谢菲菲': { 'backgroundColor': 'rgba(54, 162, 235, 0.2)', 'borderColor': 'rgba(54, 162, 235, 1)' },
     '梁娇': { 'backgroundColor': 'rgba(0,0,0,0.1)', 'borderColor': 'rgba(0,0,0,1)' },
     '梁乔': { 'backgroundColor': 'rgba(0,0,0,0.1)', 'borderColor': 'rgba(0,0,0,1)' }
-}
+};
 
 function getColor(info) {
     var colorList = {};

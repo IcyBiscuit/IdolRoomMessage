@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.icybiscuit.idol.dao.mapper.MemberMsgDataMapper">
+    <resultMap id="data" type="com.icybiscuit.idol.entity.DO.MemberPocketDataDO">
+        <result column="type" property="type"/>
+        <result column="counts" property="counts"/>
+    </resultMap>
+
+    <select id="getDays" parameterType="java.lang.String" resultType="java.lang.Integer">
+        SELECT
+    COUNT(t.days) days
+FROM
+    (SELECT
+        DATE_FORMAT(m.msg_time, '%m/%e') days
+    FROM
+        t_roommsg m
+    WHERE
+        m.room_id = #{roomId}
+            AND DATE_FORMAT(m.msg_time, '%Y%m') = DATE_FORMAT(CURRENT_DATE(), '%Y%m')
+    GROUP BY days
+    HAVING COUNT(days) >= 1) t
+    </select>
+
+    <select id="getPocketData" parameterType="java.lang.String" resultMap="data">
+    SELECT
+    m.message_type type, count(1) counts
+FROM
+    t_roommsg m
+WHERE
+    m.room_id = #{roomId}
+        AND DATE_FORMAT(m.msg_time, '%Y%m') = DATE_FORMAT(CURRENT_DATE(), '%Y%m')
+GROUP BY type
+    </select>
+
+</mapper>

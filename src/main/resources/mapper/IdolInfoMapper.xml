@@ -24,6 +24,7 @@
         <include refid="Base_Column_List"/>
         from
         t_memberinfo
+        order by member_team,member_name
 
     </select>
     <select id="findByName" resultMap="IdolInfoMap" parameterType="java.lang.String">

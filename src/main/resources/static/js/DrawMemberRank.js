@@ -19,7 +19,6 @@ function memberRank() {
                         } catch (e) {
                             console.log(e)
                         }
-
                     }
                 }
             },

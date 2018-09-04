@@ -7,8 +7,12 @@ function msgDaysCounts() {
             dataType: 'json',
             success: function (result) {
                 if (result.status == 200 && result.desc == 'success') {
-                    var data = buildFormresult(result.data);
-                    drawMsgDaysCountsLine("msgDayCounts", data);
+                    try {
+                        var data = buildFormresult(result.data);
+                        drawMsgDaysCountsLine("msgDayCounts", data);
+                    } catch (e) {
+                        console.log(e)
+                    }
                 }
             },
             error: function (e) {

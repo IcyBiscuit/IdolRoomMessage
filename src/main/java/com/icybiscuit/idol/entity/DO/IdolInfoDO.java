@@ -14,19 +14,46 @@ import java.io.Serializable;
 @Getter
 @Setter
 @ToString
-@JsonIgnoreProperties({"id","roomId"})
+@JsonIgnoreProperties({"id"})
 public class IdolInfoDO implements Serializable {
 
-//    @JsonIgnore
+    //    @JsonIgnore
     private Long id;
     private String memberName;
     private String memberTeam;
     private String supportColor;
     private String supportNumber;
 
-//    @JsonIgnore
     private String roomId;
     private String birthday;
 //    private String backgroundColor;
 //    private String borderColor;
+
+    public Long getId() {
+        return id;
+    }
+
+    public String getMemberName() {
+        return memberName;
+    }
+
+    public String getMemberTeam() {
+        return memberTeam;
+    }
+
+    public String getSupportColor() {
+        return supportColor;
+    }
+
+    public String getSupportNumber() {
+        return supportNumber;
+    }
+
+    public String getRoomId() {
+        return roomId;
+    }
+
+    public String getBirthday() {
+        return birthday;
+    }
 }

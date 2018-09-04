@@ -32,7 +32,7 @@ public class IdolInfoServiceImpl implements IdolInfoService {
 
     @Override
     public List<IdolInfoDO> listAll() {
-        final String key = Constants.LIST_MEMBER_KEY;
+        final String key = Constants.MEMBER_LIST_KEY;
 
 //        if (redisTemplate.hasKey(key)) {
 //

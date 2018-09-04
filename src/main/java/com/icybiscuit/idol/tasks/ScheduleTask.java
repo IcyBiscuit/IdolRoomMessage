@@ -10,8 +10,8 @@ import java.util.concurrent.Future;
 
 @Component
 public class ScheduleTask {
-    private static final Logger LOGGER = LoggerFactory.getLogger(ScheduleTask.class);
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(ScheduleTask.class);
 
     private AsyncTask asyncTask;
 
@@ -20,14 +20,16 @@ public class ScheduleTask {
         this.asyncTask = asyncTask;
     }
 
-    @Scheduled(cron = "0 0 0/6 * * ?")
+    @Scheduled(cron = "0 0 0/6 * * ? ")
     public void runRankQuery() {
         LOGGER.info("start query schedule");
 
+        Future<Boolean> memberInfoList = asyncTask.getMemberInfoList();
         Future<Boolean> teamRank = asyncTask.getTeamRank();
         Future<Boolean> memberMsgRank = asyncTask.getMemberMsgRank();
         Future<Boolean> liveRank = asyncTask.getLiveRank();
         Future<Boolean> msgDaysCounts = asyncTask.getMsgDaysCounts();
+        Future<Boolean> memberPocketData = asyncTask.getMemberPocketData();
 
         LOGGER.info("query schedule finished");
     }

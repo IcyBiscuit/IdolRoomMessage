@@ -8,14 +8,18 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" data="width=device-width, initial-scale=1, user-scalable=no">
+
     <link rel="bookmark" type="image/x-icon" th:href="@{/static/favicon.ico}"/>
     <link rel="shortcut icon" th:href="@{/static/favicon.ico}">
     <link rel="icon" th:href="@{/favicon.ico}">
+    <link rel="stylesheet" type="text/css" th:href="@{/static/css/rankPage.css}"/>
+
     <title>GNZ48 口袋房间消息统计 - GNZ48 Pocket48 Project</title>
     <meta name="description" data="口袋房间消息统计">
     <meta name="mobile-web-app-capable" data="yes">
     <meta name="msapplication-TileColor" data="#eeeeee">
     <meta name="theme-color" data="#4FC0C0">
+
     <script th:src="@{https://code.jquery.com/jquery-latest.js}"></script>
     <script th:src="@{https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.bundle.min.js}"></script>
     <script th:src="@{/static/js/draw.js}"></script>
@@ -26,7 +30,6 @@
     <script th:src="@{/static/js/color.js}"></script>
     <script th:src="@{static/js/YpgText.js}"></script>
 
-    <link rel="stylesheet" type="text/css" th:href="@{/static/css/rankPage.css}"/>
 </head>
 
 <body>
@@ -34,14 +37,15 @@
     <img id="ztlogo" th:src="@{/static/img/logo.png}" alt="logo.png">
 
     <div class="ypg" id="ypgarea">
-        <p class="ypg" id="ypgtext"></p>
+        <p class="ypg"></p>
     </div>
 
     <div class="m-page-data">
         <div class="m-article-data js-article-data" itemprop="articleBody">
 
             <h1 id="title">口袋房间消息统计</h1>
-
+            <h4><a th:href="@{/member}">→ 戳我查看成员个人营业数据 ←</a>
+            </h4>
             <div class="chart">
 
                 <h3>队伍消息总计</h3>
@@ -50,7 +54,7 @@
                 <h3>非直播类消息数量走向</h3>
                 <canvas id="msgDayCounts"></canvas>
 
-                <h3>直播总计(按照天数计算)</h3>
+                <h3>直播营业总计(按照天数计算)</h3>
                 <canvas id="allLive"></canvas>
 
                 <h3>露脸直播统计(按照天数计算)</h3>
@@ -65,17 +69,17 @@
                 <h3>翻牌消息统计</h3>
                 <canvas id="faipaiText"></canvas>
 
-                <h3>鸡腿翻牌统计</h3>
-                <canvas id="idolFlip"></canvas>
+                <!--<h3>鸡腿翻牌统计</h3>-->
+                <!--<canvas id="idolFlip"></canvas>-->
 
-                <h3>图片消息统计</h3>
-                <canvas id="image"></canvas>
+                <!--<h3>图片消息统计</h3>-->
+                <!--<canvas id="image"></canvas>-->
 
-                <h3>语音消息统计</h3>
-                <canvas id="audio"></canvas>
+                <!--<h3>语音消息统计</h3>-->
+                <!--<canvas id="audio"></canvas>-->
 
-                <h3>视频消息统计</h3>
-                <canvas id="videoRecord"></canvas>
+                <!--<h3>视频消息统计</h3>-->
+                <!--<canvas id="videoRecord"></canvas>-->
 
                 <br>
             </div>
@@ -118,9 +122,11 @@
 <script>
     $(function () {
 
-        $("#ypgtext").text(ypg[Math.floor(Math.random() * ypg.length)]);
+        // $("#ypgtext").text(ypg[Math.floor(Math.random() * ypg.length)]);
 
         $("#title").text("口袋房间消息统计(" + getMonth() + ")");
+
+        ypg();
 
         teamRank();
 

@@ -11,4 +11,9 @@ public class PageController {
 
         return "rank";
     }
+
+    @GetMapping(path = "/member")
+    public String member() {
+        return "member";
+    }
 }

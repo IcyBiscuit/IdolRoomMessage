@@ -19,6 +19,7 @@ var teamColor = {
 
 
 function buildFormresult(result) {
+    var day = new Date().getDate();
 
     var formdata = {
         "type": "line",
@@ -37,7 +38,7 @@ function buildFormresult(result) {
         formdata.data.datasets.push({
 
             "label": team,
-            "data": parsed.counts.slice(0, -1),
+            "data": parsed.counts.slice(0, day - 1),
 
             // "backgroundColor": teamColor[team]['backgroundColor'],
             "backgroundColor": "rgba(240,240,240,0.2)",

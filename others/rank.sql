@@ -1,9 +1,15 @@
-select m.room_id  ,m.message_type,date(m.msg_time) msg_date,m.message_type
-from t_roommsg m
-where m.message_type='diantai'
-and date_format(m.msg_time,'%Y%m')= date_format(current_date(),'%Y%m')
-group by m.room_id,msg_date
-having count(msg_date)>=1;
+SELECT 
+    m.room_id,
+    m.message_type,
+    DATE(m.msg_time) msg_date,
+    m.message_type
+FROM
+    t_roommsg m
+WHERE
+    m.message_type = 'diantai'
+        AND DATE_FORMAT(m.msg_time, '%Y%m') = DATE_FORMAT(CURRENT_DATE(), '%Y%m')
+GROUP BY m.room_id , msg_date
+HAVING COUNT(msg_date) >= 1;
 
 SELECT 
     (SELECT 

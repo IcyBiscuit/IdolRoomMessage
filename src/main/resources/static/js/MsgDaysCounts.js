@@ -17,7 +17,6 @@ var teamColor = {
     }
 };
 
-
 function buildFormresult(result) {
     var day = new Date().getDate();
 
@@ -40,12 +39,21 @@ function buildFormresult(result) {
             "label": team,
             "data": parsed.counts.slice(0, day - 1),
 
-            // "backgroundColor": teamColor[team]['backgroundColor'],
-            "backgroundColor": "rgba(240,240,240,0.2)",
+            "backgroundColor": teamColor[team]['borderColor'],
 
             "borderColor": teamColor[team]['borderColor'],
 
-            "borderWidth": 3.5
+            "borderWidth": 2.5,
+
+            "fill": false,
+            "showLine": true,
+
+            "pointStyle": "rectRounded",
+            "pointBackgroundColor": teamColor[team]["borderColor"],
+            "pointBorderColor": teamColor[team]["borderColor"],
+            "pointRadius": 3,
+            "pointHoverRadius": 6,
+
         })
     }
     return formdata;

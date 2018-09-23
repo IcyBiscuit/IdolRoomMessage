@@ -1,9 +1,14 @@
 function memberRank() {
-    var _url = $("#contextpath").val() + "/ajax/rank/all";
+    var contextpath = $("#contextpath").val();
+    var url = "/ajax/rank/all";
+
+    if (contextpath != undefined) {
+        url = contextpath + url;
+    }
 
     $.ajax(
         {
-            url: _url,
+            url: url,
             type: "get",
             dataType: 'json',
             success: function (result) {
@@ -13,7 +18,7 @@ function memberRank() {
                         try {
                             drawchar(key, data[key], {
                                 'type': 'bar',
-                                "label": String(key),
+                                "label": translate(key),
                                 "option": {}
                             })
                         } catch (e) {
@@ -31,11 +36,18 @@ function memberRank() {
 }
 
 function liveRank() {
-    var _url = $("#contextpath").val() + '/ajax/rank/all/live';
+    // var url = $("#contextpath").val() + '/ajax/rank/all/live';
+
+    var contextpath = $("#contextpath").val();
+    var url = "/ajax/rank/all/live";
+
+    if (contextpath != undefined) {
+        url = contextpath + url;
+    }
 
     $.ajax(
         {
-            url: _url,
+            url: url,
             type: "get",
             dataType: 'json',
             success: function (result) {
@@ -44,7 +56,7 @@ function liveRank() {
 
                     drawchar("allLive", data, {
                         'type': 'bar',
-                        "label": 'all live',
+                        "label": '所有直播统计',
                         "option": {}
                     })
                 }

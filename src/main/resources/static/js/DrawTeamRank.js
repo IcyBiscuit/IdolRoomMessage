@@ -1,8 +1,15 @@
 function teamRank() {
-    var _url = $("#contextpath").val() + '/ajax/rank/team';
+    // var url = $("#contextpath").val() + '/ajax/rank/team';
+    var contextpath = $("#contextpath").val();
+    var url = "/ajax/rank/team";
+
+    if (contextpath != undefined) {
+        url = contextpath + url;
+    }
+
     $.ajax(
         {
-            url: _url,
+            url: url,
             type: "get",
             dataType: 'json',
             success: function (result) {

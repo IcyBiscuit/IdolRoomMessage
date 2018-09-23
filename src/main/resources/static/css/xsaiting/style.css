@@ -42,12 +42,9 @@ td {
 .mdui-radio {
     padding-left: 1.2rem;
     text-align: center;
-    margin-left: 8px;
+    margin-left: 6px;
+    font-size: larger;
 }
-
-/*.mdui-radio-icon{*/
-/*margin-left: 12px;*/
-/*}*/
 
 #dataarea div p {
     text-align: center;

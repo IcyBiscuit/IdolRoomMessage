@@ -1,3 +1,5 @@
+// this is nginx test
+
 var typeValueMapping = {
     'live': 0,
     'diantai': 1,
@@ -11,7 +13,13 @@ var typeValueMapping = {
 
 
 function getMemberList() {
-    var url = $("#contextpath").val() + '/ajax/list/member';
+
+    var contextpath = $("#contextpath").val();
+    var url = '/ajax/list/member';
+
+    if (contextpath != undefined) {
+        url = contextpath + url;
+    }
 
     $.ajax(
         {
@@ -21,7 +29,7 @@ function getMemberList() {
             success: function (result) {
                 if (result.status == 200 && result.desc == 'success') {
                     console.log(result);
-                    success(result.data);
+                    buildMemberList(result.data);
                 }
             },
             error: function (e) {
@@ -32,7 +40,39 @@ function getMemberList() {
     )
 }
 
-function success(result) {
+function getPocketData(roomId) {
+
+    var contextpath = $("#contextpath").val()
+    var url = '/ajax/pocketdata';
+
+    if (contextpath != undefined) {
+        url = contextpath + url;
+    }
+
+    $.ajax(
+        {
+            url: url,
+            type: "post",
+            dataType: 'json',
+            data: {
+                'roomId': roomId
+            },
+
+            success: function (result) {
+                if (result.status == 200 && result.desc == 'success') {
+                    console.log(result);
+                    drawData(result.data);
+                }
+            },
+            error: function (e) {
+                console.log('error');
+                console.log(e);
+            }
+        }
+    )
+}
+
+function buildMemberList(result) {
     result.forEach(function (member) {
         var node = member['memberTeam'] + 'MemberList';
 
@@ -51,62 +91,35 @@ function success(result) {
         // node.append(label);
         $('#' + node).append(label);
     });
-    bundle();
-
+    bundleClickEvent();
 }
 
+function bundleClickEvent() {
 
-function getData(roomId) {
-    var url = $("#contextpath").val() + '/ajax/pocketdata';
+    $('input[type=radio]').click(function () {
 
-    $.ajax(
-        {
-            url: url,
-            type: "post",
-            dataType: 'json',
-            data: {
-                'roomId': roomId
-            },
-
-            success: function (result) {
-                if (result.status == 200 && result.desc == 'success') {
-                    console.log(result);
-                    // success(result.data);
-                    drawData(result.data);
-                }
-            },
-            error: function (e) {
-                console.log('error');
-                console.log(e);
-            }
-        }
-    )
-}
-
-function bundle() {
-    $(':radio').click(function () {
-        // console.log(member);
-
-        var roomId = $('input[type=radio]:checked').val();
+        // var roomId = $('input[type=radio]:checked').val();
+        var roomId = $(this).val();
         console.log(roomId);
 
-        getData(roomId);
+        getPocketData(roomId);
         $("#dataarea").show();
-
-        // return false;
     })
 }
+
 
 function drawData(result) {
 
     ypg();
 
-    var days = '营业天数: ' + result['days'] + '天';
+    var month = new Date().getMonth() + 1;
+
+    var days = '本月营业天数: ' + result['days'] + '天';
 
     $("#days").text(days);
 
     var chart = $("<canvas></canvas>").attr({
-        id: 'data',
+        id: 'pocket_data',
         height: '150px'
     });
 
@@ -124,18 +137,10 @@ function drawData(result) {
         datalist.type[index] = translate(datalist.type[index]);
     }
 
-    // var type = datalist.type;
-    //
-    // type.forEach(function (each) {
-    //     each = translate(each)
-    // })
-    // datalist['type'].forEach(function (each) {
-    // });
-
     console.log(datalist);
-    draw(ctx, datalist, {
+    drawChart(ctx, datalist, {
         'type': 'pie',
-        'backgroundColor': ["rgba(255, 159, 64, 0.2)", "rgba(153, 102, 255, 0.2)", "rgba(255, 206, 86, 0.2)", "rgba(54, 162, 235, 0.2)", "rgba(205, 201, 201, 0.2)", "rgba(255, 99, 132, 0.2)", "rgba(75, 192, 192, 0.2)"],
+        'backgroundColor': ["rgba(255, 159, 64, 0.48)", "rgba(153, 102, 255, 0.48)", "rgba(255, 206, 86, 0.48)", "rgba(54, 162, 235, 0.48)", "rgba(205, 201, 201, 0.48)", "rgba(255, 99, 132, 0.48)", "rgba(75, 192, 192, 0.48)"],
         'borderColor': ["rgba(255, 159, 64, 1)", "rgba(153, 102, 255, 1)", "rgba(255, 206, 86, 1)", "rgba(54, 162, 235, 1)", "rgba(205, 201, 201, 1)", "rgba(255, 99, 132, 1)", "rgba(75, 192, 192, 1)"],
     })
 }
@@ -154,7 +159,7 @@ function parseData(obj) {
     return returnList;
 }
 
-function draw(ctx, data, style) {
+function drawChart(ctx, data, style) {
     var formdata = {
         "type": "",
         "data": {
@@ -189,30 +194,28 @@ function draw(ctx, data, style) {
 function translate(type) {
     switch (type) {
         case 'audio':
-            type = '语音消息';
-            break;
+            return '语音消息';
 
         case 'text':
-            type = '文字消息';
-            break;
+            return '文字消息';
+
         case 'faipaiText':
-            type = '免费翻牌';
-            break;
+            return '免费翻牌';
+
         case 'live':
-            type = '露脸直播';
-            break;
+            return '露脸直播';
+
         case 'diantai':
-            type = '电台直播';
-            break;
+            return '电台直播';
+
         case 'idolFlip':
-            type = '鸡腿普通翻牌';
-            break;
+            return '鸡腿普通翻牌';
+
         case 'image':
-            type = '图片消息';
-            break;
+            return '图片消息';
+
         case 'videoRecord':
-            type = '视频消息';
-            break;
+            return '视频消息';
     }
-    return type;
+    // return type;
 }

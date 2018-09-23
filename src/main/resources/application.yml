@@ -17,7 +17,7 @@ spring:
     database: 0
     host: localhost
     port: 6379
-  #    password: fan48'redis
+#    password: fan48'redis
   thymeleaf:
     prefix: classpath:/templates/
     suffix: .html
@@ -42,3 +42,8 @@ jdbc:
   username: biscuit
   publickey: MFwwDQYJKoZIhvcNAQEBBQADSwAwSAJBAMaC9e17nvwGdrQqzw+KLt1Al7bd1pHtctp+WgkyRaLynHtBVv7USH3xuIafWT1nJp0SQwTuJKzuTpmgPGioQvECAwEAAQ==
   password: VT5o73Qr2uMFo7Kp0mEKoHTJApwQ0ylnHMfKxDBquFSJSkXBChUkA4DFAT3Ui1x7tsFmHn60i+Rl5GS60MXxMg==
+
+logging:
+#  path: ./msg_rank_log
+  config: classpath:logback-spring.xml
+

@@ -1,8 +1,16 @@
 function msgDaysCounts() {
-    var _url = $("#contextpath").val() + '/ajax/msg/counts/all';
+    // var url = $("#contextpath").val() + '/ajax/msg/counts/all';
+
+    var contextpath = $("#contextpath").val();
+    var url = "/ajax/msg/counts/all";
+
+    if (contextpath != undefined) {
+        url = contextpath + url;
+    }
+
     $.ajax(
         {
-            url: _url,
+            url: url,
             type: "get",
             dataType: 'json',
             success: function (result) {

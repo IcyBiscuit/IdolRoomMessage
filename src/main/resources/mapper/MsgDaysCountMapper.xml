@@ -13,6 +13,7 @@
         SELECT
     info.member_team team,
     DATE_FORMAT(msg.msg_time, '%m/%e') days,
+    date(msg.msg_time) msg_date,
     COUNT(1) counts
 FROM
     ((SELECT
@@ -56,6 +57,7 @@ FROM
     t_memberinfo info ON info.room_id = msg.room_id
 WHERE
     info.member_team = #{team}
-GROUP BY team , days
+GROUP BY team , msg_date,days
+order by date(msg_date) asc
     </select>
 </mapper>

@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" data="width=device-width, initial-scale=1, user-scalable=no">
+    <link rel="bookmark" type="image/x-icon" href="/rank/static/favicon.ico" />
+    <link rel="shortcut icon" href="/rank/static/favicon.ico">
+    <link rel="icon" href="/rank/static/favicon.ico">
+    <link rel="stylesheet" type="text/css" href="/rank/static/css/rankPage.css" />
+
+    <title>GNZ48 口袋房间消息统计 - GNZ48 Pocket48 Project</title>
+    <meta name="description" data="口袋房间消息统计">
+    <meta name="mobile-web-app-capable" data="yes">
+    <meta name="msapplication-TileColor" data="#eeeeee">
+    <meta name="theme-color" data="#4FC0C0">
+
+    <script src="https://code.jquery.com/jquery-latest.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.bundle.min.js"></script>
+
+    <script src="/rank/static/js/draw.js"></script>
+    <script src="/rank/static/js/DrawTeamRank.js"></script>
+    <script src="/rank/static/js/DrawMemberRank.js"></script>
+    <script src="/rank/static/js/MsgDaysCounts.js"></script>
+    <script src="/rank/static/js/DrawMsgDaysCounts.js"></script>
+    <script src="/rank/static/js/color.js"></script>
+    <script src="/rank/static/js/YpgText.js"></script>
+    <script src="/rank/static/js/utils.js"></script>
+</head>
+
+<body>
+    <div class="m-page-stage js-page-stage">
+        <img id="ztlogo" src="/rank/static/img/logo.png" alt="logo.png">
+
+        <div class="ypg" id="ypgarea">
+            <p class="ypg"></p>
+        </div>
+
+        <div class="m-page-data">
+            <div class="m-article-data js-article-data" itemprop="articleBody">
+
+                <h1 id="title">口袋房间消息统计</h1>
+                <h4><a href="/member.html">→ 戳我查看成员个人营业数据 ←</a>
+                </h4>
+                <div class="chart">
+
+                    <h3>队伍消息总计</h3>
+                    <canvas id="team"></canvas>
+
+                    <h3>非直播类消息数量走向</h3>
+                    <canvas id="msgDayCounts"></canvas>
+
+                    <h3>直播营业总计(按照天数计算)</h3>
+                    <canvas id="allLive"></canvas>
+
+                    <h3>露脸直播统计(按照天数计算)</h3>
+                    <canvas id="live"></canvas>
+
+                    <h3>电台直播统计(按照天数计算)</h3>
+                    <canvas id="diantai"></canvas>
+
+                    <h3>文字消息统计</h3>
+                    <canvas id="text"></canvas>
+
+                    <h3>翻牌消息统计</h3>
+                    <canvas id="faipaiText"></canvas>
+
+                    <!--<h3>鸡腿翻牌统计</h3>-->
+                    <!--<canvas id="idolFlip"></canvas>-->
+
+                    <!--<h3>图片消息统计</h3>-->
+                    <!--<canvas id="image"></canvas>-->
+
+                    <!--<h3>语音消息统计</h3>-->
+                    <!--<canvas id="audio"></canvas>-->
+
+                    <!--<h3>视频消息统计</h3>-->
+                    <!--<canvas id="videoRecord"></canvas>-->
+                </div>
+
+                <div class="m-page-footer js-page-footer">
+                    <p class="source">因监控成员较多,口袋服务器请求间隔限制以及小偶像发消息手速的的不确定性,统计数据可能与原始真实情况有误差(偏少), 请谅解</p>
+                    <p class="source">数据来源: 口袋48消息机器人</p>
+                    <p class="source">数据整理: 生个中泰吧秃头组</p>
+                    <div class="main">
+                        <footer class="site-info">
+                            <a class="floating-action-round-button weibo" itemprop="sameAs" href="https://weibo.com/6423815547"
+                                target="_blank">
+                                <p>© GNZ48 Pocket48 Project</p>
+
+                                <div class="icon">
+                                    Weibo: 生个中泰吧
+                                    <svg fill="#000000" width="24px" height="24px" viewBox="0 0 1024 1024" version="1.1"
+                                        xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M769.226164 496.610234c-14.420098-4.330228-24.309277-7.266877-16.746482-26.214823 16.350218-41.133578 18.046881-76.626289 0.307181-101.939024-33.242099-47.500415-124.194284-44.928286-228.44638-1.280945 0-0.056317-32.73525 14.323848-24.371737-11.64523 16.042013-51.54906 13.626547-94.739726-11.332929-119.662341-56.566349-56.601163-206.976479 2.134908-335.954595 131.078209-96.594075 96.61353-152.681222 198.989775-152.681222 287.52035 0 169.337597 217.152361 272.292366 429.593589 272.292366 278.498445 0 463.752111-161.808592 463.752111-290.273715C893.345701 558.867622 827.968378 514.820945 769.226164 496.610234zM430.163922 866.063936c-169.51781 16.728051-315.851649-59.899262-326.864086-171.202185-11.010389-111.275277 117.530505-215.061482 287.031932-231.823323 169.537265-16.761841 315.876224 59.866496 326.86511 171.119247C728.190884 745.495411 599.705282 849.291856 430.163922 866.063936z" />
+                                        <path d="M954.16753 186.714824c-67.256246-74.565105-166.457264-102.990607-258.020739-83.522502l-0.037886 0c-21.188318 4.535015-34.695065 25.37929-30.159026 46.527675 4.516584 21.166816 25.352668 34.691993 46.54201 30.174385 65.139769-13.832358 135.634727 6.400627 183.442323 59.368863 47.765615 52.96414 60.740938 125.206957 40.282686 188.537431l0.011263 0.012287c-6.666851 20.629249 4.617954 42.698153 25.271777 49.366027 20.570885 6.662755 42.687913-4.607714 49.362955-25.188838 0-0.037886 0-0.116729 0.011263-0.150519C1039.577146 362.756133 1021.443231 261.206205 954.16753 186.714824" />
+                                        <path d="M850.886125 279.919669c-32.732179-36.315956-81.068126-50.108381-125.685136-40.621609-18.234261 3.885839-29.856965 21.833398-25.946551 40.085067 3.89915 18.173849 21.833398 29.851845 40.024654 25.893307l0 0.037886c21.809848-4.610786 45.459709 2.113405 61.461789 19.83365 16.018463 17.757107 20.323092 41.949655 13.45043 63.178931l0.035838 0c-5.715614 17.717174 3.983113 36.770584 21.717694 42.511796 17.7397 5.677728 36.76956-3.992328 42.493365-21.756603C892.458972 365.691759 883.686907 316.228458 850.886125 279.919669" />
+                                        <path d="M447.103928 548.691741c-80.666743-20.985579-171.84317 19.215193-206.880229 90.291746-35.685212 72.492657-1.180599 152.963828 80.321676 179.268757 84.41947 27.224424 183.926645-14.492797 218.521364-92.744074C573.187374 649.021137 530.586496 570.268131 447.103928 548.691741zM385.506979 733.819463c-16.398343 26.160554-51.51015 37.623523-77.954335 25.54824-26.066352-11.868448-33.760211-42.248645-17.360844-67.757975 16.197652-25.400793 50.129884-36.716316 76.378497-25.711046C393.129162 677.216253 401.60838 707.401901 385.506979 733.819463zM439.522702 664.493841c-5.929616 10.131852-19.03498 15.010909-29.304039 10.785123-10.096014-4.15411-13.261002-15.495231-7.522862-25.454038 5.906066-9.908634 18.500485-14.747758 28.572948-10.750309C441.502995 642.817105 445.180975 654.283146 439.522702 664.493841z" />
+                                    </svg>
+                                </div>
+                            </a>
+                        </footer>
+                    </div>
+                    <br>
+                </div>
+            </div>
+        </div>
+    </div>
+    <input type="hidden" id="contextpath" value="/rank">
+</body>
+<script>
+    $(function () {
+
+        $("#title").text("口袋房间消息统计(" + getMonth() + ")");
+
+        ypg();
+
+        teamRank();
+
+        msgDaysCounts();
+
+        liveRank();
+
+        memberRank();
+    });
+
+    function getMonth() {
+
+        var date = new Date();
+        var year = date.getFullYear();
+        var month = date.getMonth() + 1;
+
+        return String(year) + "/" + String(month);
+    }
+</script>
+
+</html>
